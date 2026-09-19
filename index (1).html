@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Awaneesh Shrestha | Student, Football Fan & Future Businessman</title>
+  <meta name="description" content="Personal website of Awaneesh Shrestha, a Grade 11 student from Kathmandu who loves football, supports Barcelona and Manchester United, and wants to become a successful businessman.">
+  <meta name="theme-color" content="#0E3B2C">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --pitch: #0E3B2C;        /* deep pitch green */
+      --pitch-stripe: #124634; /* mowed stripe */
+      --chalk: #F4F7F2;        /* line-marking white */
+      --ink: #0A1F17;          /* body text / dark sections */
+      --mist: #9DB8AA;         /* muted text on green */
+      --crimson: #C8102E;      /* Nepal flag crimson */
+
+      --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+      --body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--body);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--chalk);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--crimson); outline-offset: 3px; border-radius: 2px; }
+    .wrap { width: min(1120px, 100% - 3rem); margin-inline: auto; }
+
+    /* ---------- Scroll progress bar ---------- */
+    .progress {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+      height: 4px;
+      background: var(--crimson);
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    /* ---------- Scroll reveal (only when JavaScript is running) ---------- */
+    .reveal {
+      transition:
+        opacity .8s var(--ease) var(--d, 0s),
+        transform .8s var(--ease) var(--d, 0s),
+        translate .3s ease,
+        box-shadow .3s ease;
+    }
+    .js .reveal { opacity: 0; transform: translateY(28px); }
+    .js .reveal.in { opacity: 1; transform: none; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      color: var(--chalk);
+      overflow: hidden;
+      background: repeating-linear-gradient(90deg, var(--pitch) 0 9%, var(--pitch-stripe) 9% 18%);
+    }
+    .pitch { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .pitch .line {
+      fill: none;
+      stroke: var(--chalk);
+      stroke-opacity: .28;
+      stroke-width: 3;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw 2.4s cubic-bezier(.6, .1, .2, 1) forwards;
+    }
+    .pitch .line:nth-child(2) { animation-delay: .15s; }
+    .pitch .line:nth-child(3) { animation-delay: .3s; }
+    .pitch .line:nth-child(n+4) { animation-delay: .5s; }
+    .pitch .spot { fill: var(--chalk); fill-opacity: .28; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+
+    .nav {
+      position: relative; z-index: 2;
+      display: flex; justify-content: space-between; align-items: center;
+      padding-block: 1.5rem;
+      animation: fadeUp .8s var(--ease) both;
+    }
+    .nav .mark {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: .02em;
+      text-decoration: none;
+    }
+    .nav ul { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+    .nav ul a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .95rem;
+      padding-block: .25rem;
+      border-bottom: 2px solid transparent;
+      transition: border-color .2s;
+    }
+    .nav ul a:hover { border-color: var(--crimson); }
+
+    .hero-body {
+      position: relative; z-index: 1;
+      flex: 1;
+      display: flex; align-items: center;
+      padding-block: 2rem 4rem;
+    }
+    .jersey-number {
+      position: absolute;
+      right: -1rem; bottom: -3rem;
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(14rem, 44vw, 38rem);
+      line-height: .8;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(244, 247, 242, .32);
+      user-select: none;
+      pointer-events: none;
+      animation: fadeIn 1.4s ease .5s both;
+      will-change: transform;
+    }
+    .hero h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: clamp(3.5rem, 12.5vw, 10rem);
+      line-height: .86;
+      letter-spacing: -.005em;
+    }
+    /* each name line slides up from behind a mask */
+    .hero h1 .mask { display: block; overflow: hidden; padding-top: .08em; margin-top: -.08em; }
+    .hero h1 .rise { display: block; transform: translateY(110%); animation: rise 1s var(--ease) forwards; }
+    .hero h1 .mask:nth-child(1) .rise { animation-delay: .25s; }
+    .hero h1 .mask:nth-child(2) .rise { animation-delay: .4s; }
+
+    .hero .tagline {
+      margin: 1.75rem 0 1.1rem;
+      max-width: 38ch;
+      font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+      color: var(--mist);
+      animation: fadeUp .9s var(--ease) .9s both;
+    }
+    .role {
+      margin: 0 0 2.25rem;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      animation: fadeUp .9s var(--ease) 1.05s both;
+    }
+    #role {
+      display: inline-block;
+      background: var(--chalk);
+      color: var(--pitch);
+      padding: 0 .5em;
+      border-radius: 4px;
+    }
+    #role.swap { animation: swapIn .5s var(--ease); }
+    .btn {
+      display: inline-block;
+      padding: .9rem 1.6rem;
+      background: var(--crimson);
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 999px;
+      transition: transform .15s, background .2s;
+      animation: fadeUp .9s var(--ease) 1.2s both;
+    }
+    .btn:hover { background: #a80d26; transform: translateY(-2px); }
+
+    /* bouncing football */
+    .ball-wrap {
+      --size: clamp(56px, 8vw, 92px);
+      --h: clamp(60px, 11vw, 130px);
+      position: absolute; z-index: 1;
+      right: clamp(1.25rem, 14vw, 14rem);
+      bottom: clamp(2rem, 14%, 8rem);
+      width: var(--size);
+      opacity: 0;
+      animation: fadeIn .6s ease 1.4s forwards;
+    }
+    .ball { width: var(--size); height: var(--size); transform-origin: 50% 100%; animation: bounce 1.3s infinite; }
+    .ball svg { display: block; width: 100%; height: 100%; animation: spin 2.6s linear infinite; }
+    .ball-shadow {
+      height: 12px; margin-top: 6px;
+      background: rgba(0, 0, 0, .4);
+      border-radius: 50%;
+      filter: blur(3px);
+      animation: shadow 1.3s infinite;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @keyframes rise { to { transform: none; } }
+    @keyframes swapIn { from { opacity: 0; transform: translateY(60%); } to { opacity: 1; transform: none; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes bounce {
+      0%   { transform: translateY(0) scale(1.1, .9); animation-timing-function: cubic-bezier(.2, .7, .4, 1); }
+      50%  { transform: translateY(calc(var(--h) * -1)) scale(1, 1); animation-timing-function: cubic-bezier(.6, 0, .8, .3); }
+      100% { transform: translateY(0) scale(1.1, .9); }
+    }
+    @keyframes shadow {
+      0%   { transform: scale(1); opacity: .6; animation-timing-function: cubic-bezier(.2, .7, .4, 1); }
+      50%  { transform: scale(.45); opacity: .2; animation-timing-function: cubic-bezier(.6, 0, .8, .3); }
+      100% { transform: scale(1); opacity: .6; }
+    }
+
+    /* ---------- Scrolling ticker ---------- */
+    .marquee {
+      background: var(--crimson);
+      color: #fff;
+      overflow: hidden;
+      padding-block: .85rem;
+    }
+    .marquee .track { display: flex; width: max-content; animation: scroll 30s linear infinite; }
+    .marquee:hover .track { animation-play-state: paused; }
+    .marquee .group { display: flex; flex-shrink: 0; }
+    .marquee span {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.6rem;
+      line-height: 1.2;
+      white-space: nowrap;
+      display: inline-flex; align-items: center;
+    }
+    .marquee span::after {
+      content: "";
+      width: 10px; height: 10px;
+      margin-inline: 1.6rem;
+      background: var(--chalk);
+      transform: rotate(45deg);
+    }
+    @keyframes scroll { to { transform: translateX(-50%); } }
+
+    /* ---------- Shared section styles ---------- */
+    .section { padding-block: clamp(4rem, 9vw, 7rem); }
+    .section h2 {
+      margin: 0 0 2.5rem;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1;
+      color: var(--pitch);
+    }
+
+    /* ---------- Profile ---------- */
+    .sheet {
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 3px solid var(--pitch);
+    }
+    .sheet > div {
+      padding: 1.5rem 1rem 1.5rem 0;
+      border-bottom: 1px solid rgba(14, 59, 44, .2);
+    }
+    .sheet dt { font-size: .9rem; color: #4d6a5c; margin-bottom: .25rem; }
+    .sheet dd {
+      margin: 0;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      line-height: 1.1;
+      color: var(--pitch);
+      transition: translate .25s ease, color .25s ease;
+    }
+    .sheet > div:hover dd { translate: 10px 0; color: var(--crimson); }
+
+    /* ---------- About ---------- */
+    .about { background: var(--pitch); color: var(--chalk); }
+    .about h2 { color: var(--chalk); }
+    .about p { max-width: 62ch; margin: 0 0 1.25rem; font-size: 1.15rem; }
+    .about p:last-child { margin-bottom: 0; }
+    .about .lead {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      line-height: 1.15;
+      max-width: 24ch;
+      margin-bottom: 1.75rem;
+    }
+
+    /* ---------- Interests ---------- */
+    .interests { display: grid; grid-template-columns: 3fr 2fr; gap: 1.5rem; }
+    .panel { padding: clamp(1.75rem, 4vw, 3rem); border-radius: 4px; }
+    .panel:hover { translate: 0 -6px; box-shadow: 0 18px 36px rgba(10, 31, 23, .18); }
+    .panel h3 {
+      margin: 0 0 1rem;
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      line-height: 1;
+    }
+    .panel p { margin: 0 0 1.25rem; max-width: 46ch; }
+    .panel ul { margin: 0; padding-left: 1.2rem; }
+    .panel li { margin-bottom: .35rem; }
+    .panel.football { border: 3px solid var(--pitch); }
+    .panel.football h3 { color: var(--pitch); }
+    .panel.game { background: var(--crimson); color: #fff; }
+
+    /* ---------- Clubs ---------- */
+    .clubs { background: var(--ink); color: var(--chalk); }
+    .clubs h2 { color: var(--chalk); }
+    .clubs .intro { max-width: 52ch; margin: -1.25rem 0 2.5rem; color: var(--mist); }
+    .club-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .club { background: #12291F; border-radius: 4px; overflow: hidden; }
+    .club:hover { translate: 0 -8px; box-shadow: 0 24px 44px rgba(0, 0, 0, .45); }
+    .club .band { position: relative; height: 130px; overflow: hidden; }
+    .club.barca .band {
+      background: repeating-linear-gradient(90deg, #A50044 0 12.5%, #004D98 12.5% 25%);
+    }
+    .club.united .band { background: #DA291C; border-bottom: 8px solid #FBE122; }
+    /* light sweep across the band on hover */
+    .club .band::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .38) 50%, transparent 65%);
+      transform: translateX(-120%);
+      transition: transform .9s var(--ease);
+    }
+    .club:hover .band::after { transform: translateX(120%); }
+    .club .body { padding: 1.75rem clamp(1.5rem, 3vw, 2.25rem) 2.25rem; }
+    .chip {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: .15rem .8rem;
+      border: 1px solid rgba(244, 247, 242, .4);
+      border-radius: 999px;
+      font-size: .85rem;
+      font-weight: 600;
+    }
+    .club h3 {
+      margin: 0 0 .75rem;
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      line-height: 1;
+    }
+    .club p { margin: 0; max-width: 40ch; color: #cfe0d6; }
+
+    /* ---------- Future goal ---------- */
+    .goal-statement {
+      margin: 0 0 3rem;
+      max-width: 16ch;
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 7vw, 5.25rem);
+      line-height: .95;
+      color: var(--pitch);
+    }
+    .goal-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 2.5rem; align-items: center; }
+    .chart { background: var(--pitch); border-radius: 4px; padding: 1.25rem; }
+    .chart svg { display: block; width: 100%; height: auto; }
+    .chart .grid-line { stroke: var(--chalk); stroke-opacity: .12; stroke-width: 1; }
+    .chart .growth {
+      fill: none; stroke: var(--chalk); stroke-width: 5; stroke-linecap: round;
+      stroke-dasharray: 1; stroke-dashoffset: 1;
+    }
+    .chart .area { opacity: 0; transition: opacity 1.2s ease 1.8s; }
+    .chart .dot {
+      fill: var(--crimson); stroke: var(--chalk); stroke-width: 3;
+      transform-box: fill-box; transform-origin: center; transform: scale(0);
+    }
+    .chart .pulse {
+      fill: none; stroke: var(--chalk); stroke-width: 2;
+      transform-box: fill-box; transform-origin: center; opacity: 0;
+    }
+    .chart.in .growth { animation: draw 2.6s cubic-bezier(.5, .1, .2, 1) .3s forwards; }
+    .chart.in .area { opacity: 1; }
+    .chart.in .dot { animation: pop .55s cubic-bezier(.3, 1.6, .5, 1) var(--d) forwards; }
+    .chart.in .pulse { animation: pulse 2s ease-out 3.2s infinite; }
+    @keyframes pop { to { transform: scale(1); } }
+    @keyframes pulse {
+      0%   { transform: scale(1); opacity: .8; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+
+    .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+    .steps li {
+      position: relative;
+      counter-increment: step;
+      padding: 0 0 1.75rem 3.5rem;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute; left: 0; top: 0;
+      width: 2.4rem; height: 2.4rem;
+      display: grid; place-items: center;
+      background: var(--crimson); color: #fff;
+      border-radius: 50%;
+      font-family: var(--display); font-weight: 800; font-size: 1.3rem;
+    }
+    .steps li:not(:last-child)::after {
+      content: "";
+      position: absolute; left: 1.2rem; top: 2.6rem; bottom: .2rem;
+      width: 2px; background: rgba(14, 59, 44, .25);
+    }
+    .steps strong {
+      display: block;
+      font-family: var(--display); font-weight: 800; font-size: 1.6rem; line-height: 1.1;
+      color: var(--pitch);
+    }
+    .steps span { display: block; margin-top: .2rem; }
+
+    /* ---------- Footer ---------- */
+    .footer { background: var(--ink); color: var(--mist); padding-block: 2rem; font-size: .95rem; border-top: 1px solid rgba(244, 247, 242, .1); }
+    .footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+    .footer a { text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .2s; }
+    .footer a:hover { border-color: var(--crimson); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 860px) {
+      .goal-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .nav ul { gap: 1rem; }
+      .nav ul a { font-size: .88rem; }
+      .sheet { grid-template-columns: 1fr; }
+      .interests, .club-grid { grid-template-columns: 1fr; }
+      .jersey-number { right: -.5rem; bottom: -1rem; }
+      .ball-wrap { right: 1.25rem; bottom: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .nav .mark { display: none; }
+      .nav { justify-content: center; }
+    }
+
+    /* ---------- Reduced motion: keep everything visible, stop movement ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .pitch .line { animation: none; stroke-dashoffset: 0; }
+      .nav, .jersey-number, .hero .tagline, .role, .btn, .ball-wrap { animation: none; opacity: 1; }
+      .hero h1 .rise { animation: none; transform: none; }
+      .ball, .ball svg, .ball-shadow { animation: none; }
+      .marquee .track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
+      .marquee .group + .group { display: none; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .chart .growth { stroke-dashoffset: 0; animation: none; }
+      .chart .area { opacity: 1; transition: none; }
+      .chart .dot { transform: scale(1); animation: none; }
+      .chart .pulse { display: none; }
+      .club .band::after { transition: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ===== Hero ===== -->
+  <header class="hero" id="top">
+    <!-- Football pitch markings, drawn once on page load -->
+    <svg class="pitch" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect class="line" pathLength="1" x="60" y="60" width="1080" height="680"/>
+      <line class="line" pathLength="1" x1="600" y1="60" x2="600" y2="740"/>
+      <circle class="line" pathLength="1" cx="600" cy="400" r="110"/>
+      <rect class="line" pathLength="1" x="60" y="210" width="170" height="380"/>
+      <rect class="line" pathLength="1" x="60" y="310" width="60" height="180"/>
+      <rect class="line" pathLength="1" x="970" y="210" width="170" height="380"/>
+      <rect class="line" pathLength="1" x="1080" y="310" width="60" height="180"/>
+      <circle class="spot" cx="600" cy="400" r="6"/>
+    </svg>
+
+    <nav class="wrap nav" aria-label="Main">
+      <a class="mark" href="#top">AS</a>
+      <ul>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#interests">Interests</a></li>
+        <li><a href="#clubs">Clubs</a></li>
+        <li><a href="#goal">Goal</a></li>
+      </ul>
+    </nav>
+
+    <div class="wrap hero-body">
+      <div class="jersey-number" id="jersey" aria-hidden="true">15</div>
+      <div>
+        <h1>
+          <span class="mask"><span class="rise">Awaneesh</span></span>
+          <span class="mask"><span class="rise">Shrestha</span></span>
+        </h1>
+        <p class="tagline">Grade 11 student from Kathmandu. Football on the pitch, eFootball on the screen, and business in my future.</p>
+        <!-- The word below changes every few seconds (decorative) -->
+        <p class="role" aria-hidden="true">I'm a <span id="role">Grade 11 student</span></p>
+        <a class="btn" href="#profile">View my profile</a>
+      </div>
+    </div>
+
+    <!-- Bouncing football -->
+    <div class="ball-wrap" aria-hidden="true">
+      <div class="ball">
+        <svg viewBox="0 0 100 100">
+          <defs>
+            <clipPath id="ballClip"><circle cx="50" cy="50" r="46"/></clipPath>
+            <polygon id="patch" points="50,78 61.4,86.3 57,100.2 43,100.2 38.6,86.3"/>
+          </defs>
+          <circle cx="50" cy="50" r="46" fill="#F4F7F2"/>
+          <g clip-path="url(#ballClip)" fill="#0A1F17">
+            <use href="#patch"/>
+            <use href="#patch" transform="rotate(72 50 50)"/>
+            <use href="#patch" transform="rotate(144 50 50)"/>
+            <use href="#patch" transform="rotate(216 50 50)"/>
+            <use href="#patch" transform="rotate(288 50 50)"/>
+          </g>
+          <g stroke="#0A1F17" stroke-width="2.5" stroke-linecap="round">
+            <line x1="50" y1="34" x2="50" y2="16"/>
+            <line x1="65.2" y1="45" x2="82.3" y2="39.4"/>
+            <line x1="59.4" y1="62.9" x2="70" y2="77.5"/>
+            <line x1="40.6" y1="62.9" x2="30" y2="77.5"/>
+            <line x1="34.8" y1="45" x2="17.7" y2="39.4"/>
+          </g>
+          <polygon points="50,34 65.2,45 59.4,62.9 40.6,62.9 34.8,45" fill="#0A1F17"/>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#0A1F17" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="ball-shadow"></div>
+    </div>
+  </header>
+
+  <!-- ===== Ticker ===== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <div class="group">
+        <span>Football</span><span>eFootball</span><span>FC Barcelona</span><span>Manchester United</span><span>Future businessman</span><span>Kathmandu</span>
+      </div>
+      <div class="group">
+        <span>Football</span><span>eFootball</span><span>FC Barcelona</span><span>Manchester United</span><span>Future businessman</span><span>Kathmandu</span>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ===== Profile ===== -->
+    <section class="section" id="profile" aria-labelledby="profile-title">
+      <div class="wrap">
+        <h2 id="profile-title" class="reveal">Profile</h2>
+        <dl class="sheet">
+          <div class="reveal"><dt>Full name</dt><dd>Awaneesh Shrestha</dd></div>
+          <div class="reveal" style="--d:.08s"><dt>Age</dt><dd><span data-count="15">15</span> years</dd></div>
+          <div class="reveal"><dt>School</dt><dd>Nisarga Batika</dd></div>
+          <div class="reveal" style="--d:.08s"><dt>Grade</dt><dd>Grade 11</dd></div>
+          <div class="reveal"><dt>Address</dt><dd>Tahachal, Kathmandu, Nepal</dd></div>
+          <div class="reveal" style="--d:.08s"><dt>Favourite sport</dt><dd>Football</dd></div>
+          <div class="reveal"><dt>Favourite game</dt><dd>eFootball</dd></div>
+          <div class="reveal" style="--d:.08s"><dt>Future goal</dt><dd>Successful businessman</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <h2 id="about-title" class="reveal">About me</h2>
+        <p class="lead reveal">I'm Awaneesh, and football is a big part of my life.</p>
+        <p class="reveal" style="--d:.1s">I'm a 15-year-old student in Grade 11 at Nisarga Batika, living in Tahachal, Kathmandu. I love watching, playing and talking about football, and I enjoy the game just as much on a screen as I do on a real pitch.</p>
+        <p class="reveal" style="--d:.2s">One day I want to become a successful businessman. I believe the teamwork, discipline and never-give-up attitude that football teaches will help me get there.</p>
+      </div>
+    </section>
+
+    <!-- ===== Interests ===== -->
+    <section class="section" id="interests" aria-labelledby="interests-title">
+      <div class="wrap">
+        <h2 id="interests-title" class="reveal">Interests</h2>
+        <div class="interests">
+
+          <article class="panel football reveal">
+            <h3>Football</h3>
+            <p>My favourite sport. I enjoy the teamwork, the speed of the game and the excitement of a last-minute goal.</p>
+            <ul>
+              <li>Playing with friends</li>
+              <li>Watching matches</li>
+              <li>Following the latest football news</li>
+            </ul>
+          </article>
+
+          <article class="panel game reveal" style="--d:.12s">
+            <h3>eFootball</h3>
+            <p>My favourite game. I like building a squad, planning tactics and competing in online matches.</p>
+            <ul>
+              <li>Squad building</li>
+              <li>Online matches</li>
+              <li>Trying new tactics</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Clubs ===== -->
+    <section class="section clubs" id="clubs" aria-labelledby="clubs-title">
+      <div class="wrap">
+        <h2 id="clubs-title" class="reveal">Clubs I support</h2>
+        <p class="intro reveal">Two of the biggest clubs in Europe, from two of its biggest leagues.</p>
+        <div class="club-grid">
+
+          <article class="club barca reveal">
+            <div class="band" aria-hidden="true"></div>
+            <div class="body">
+              <span class="chip">La Liga, Spain</span>
+              <h3>FC Barcelona</h3>
+              <p>The Catalan giants, famous for beautiful passing football and a long history of legendary players.</p>
+            </div>
+          </article>
+
+          <article class="club united reveal" style="--d:.12s">
+            <div class="band" aria-hidden="true"></div>
+            <div class="body">
+              <span class="chip">Premier League, England</span>
+              <h3>Manchester United</h3>
+              <p>The Red Devils, one of the most successful and best-known clubs in English football.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Future goal ===== -->
+    <section class="section" id="goal" aria-labelledby="goal-title">
+      <div class="wrap">
+        <h2 id="goal-title" class="reveal">My goal</h2>
+        <p class="goal-statement reveal">I want to become a successful businessman.</p>
+
+        <div class="goal-grid">
+          <!-- Decorative growth chart: the line draws itself when scrolled into view -->
+          <div class="chart reveal" aria-hidden="true">
+            <svg viewBox="0 0 800 360">
+              <defs>
+                <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#F4F7F2" stop-opacity=".28"/>
+                  <stop offset="1" stop-color="#F4F7F2" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line class="grid-line" x1="40" y1="100" x2="780" y2="100"/>
+              <line class="grid-line" x1="40" y1="180" x2="780" y2="180"/>
+              <line class="grid-line" x1="40" y1="260" x2="780" y2="260"/>
+              <line class="grid-line" x1="40" y1="340" x2="780" y2="340"/>
+              <path class="area" fill="url(#fade)" d="M40 310 C 180 300, 220 250, 300 235 S 470 180, 540 140 S 680 60, 760 40 L 760 340 L 40 340 Z"/>
+              <path class="growth" pathLength="1" d="M40 310 C 180 300, 220 250, 300 235 S 470 180, 540 140 S 680 60, 760 40"/>
+              <circle class="dot" style="--d:.6s" cx="40" cy="310" r="10"/>
+              <circle class="dot" style="--d:1.3s" cx="300" cy="235" r="10"/>
+              <circle class="dot" style="--d:2s" cx="540" cy="140" r="10"/>
+              <circle class="dot" style="--d:2.7s" cx="760" cy="40" r="12"/>
+              <circle class="pulse" cx="760" cy="40" r="12"/>
+            </svg>
+          </div>
+
+          <!-- Edit these steps to match your own plan -->
+          <ol class="steps">
+            <li class="reveal">
+              <strong>Today</strong>
+              <span>Studying in Grade 11 and building good habits.</span>
+            </li>
+            <li class="reveal" style="--d:.1s">
+              <strong>Finish school</strong>
+              <span>Keep learning and study business.</span>
+            </li>
+            <li class="reveal" style="--d:.2s">
+              <strong>Gain experience</strong>
+              <span>Learn from real work and from successful people.</span>
+            </li>
+            <li class="reveal" style="--d:.3s">
+              <strong>Build my business</strong>
+              <span>Start and grow a business of my own.</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>&copy; 2026 Awaneesh Shrestha</span>
+      <a href="#top">Back to top</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var hasIO = 'IntersectionObserver' in window;
+
+      /* Reveal elements as they scroll into view */
+      var reveals = [].slice.call(document.querySelectorAll('.reveal'));
+      if (!hasIO || reduce) {
+        reveals.forEach(function (el) { el.classList.add('in'); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        reveals.forEach(function (el) { io.observe(el); });
+      }
+
+      /* Count the age up from 0 */
+      var counters = [].slice.call(document.querySelectorAll('[data-count]'));
+      function countUp(el) {
+        var end = Number(el.getAttribute('data-count')), start = null;
+        function step(t) {
+          if (start === null) start = t;
+          var p = Math.min((t - start) / 1200, 1);
+          el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+      if (hasIO && !reduce) {
+        var cio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { countUp(entry.target); cio.unobserve(entry.target); }
+          });
+        }, { threshold: 0.6 });
+        counters.forEach(function (el) { el.textContent = '0'; cio.observe(el); });
+      }
+
+      /* Rotating word in the hero */
+      var roleEl = document.getElementById('role');
+      var roles = ['Grade 11 student', 'football fan', 'eFootball player', 'future businessman'];
+      var i = 0;
+      if (roleEl && !reduce) {
+        setInterval(function () {
+          i = (i + 1) % roles.length;
+          roleEl.classList.remove('swap');
+          void roleEl.offsetWidth; /* restart the animation */
+          roleEl.textContent = roles[i];
+          roleEl.classList.add('swap');
+        }, 2400);
+      }
+
+      /* Scroll progress bar and slow drift of the big "15" */
+      var bar = document.getElementById('progress');
+      var jersey = document.getElementById('jersey');
+      var ticking = false;
+      function update() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var y = window.scrollY;
+        bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+        if (jersey && !reduce) jersey.style.transform = 'translateY(' + (y * 0.18) + 'px)';
+        ticking = false;
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      update();
+    })();
+  </script>
+</body>
+</html>
